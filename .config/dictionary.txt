@@ -108,6 +108,7 @@ gnalawad
 groovylint
 haaaad
 hbenl
+hostnames
 hostvars
 hotfixes
 iam
