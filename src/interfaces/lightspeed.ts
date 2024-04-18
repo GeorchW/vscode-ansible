@@ -1,9 +1,5 @@
 import { AuthenticationSession } from "vscode";
-import {
-  AnsibleContentUploadTrigger,
-  LIGHTSPEED_USER_TYPE,
-  UserAction,
-} from "../definitions/lightspeed";
+import { LIGHTSPEED_USER_TYPE, UserAction } from "../definitions/lightspeed";
 
 export interface LightspeedAuthSession extends AuthenticationSession {
   rhUserHasSeat: boolean;
@@ -45,13 +41,6 @@ export interface InlineSuggestionEvent {
   activityId?: string;
 }
 
-export interface AnsibleContentEvent {
-  content: string;
-  documentUri: string;
-  trigger: AnsibleContentUploadTrigger;
-  activityId: string | undefined;
-}
-
 export interface SentimentEvent {
   value: number;
   feedback: string;
@@ -72,7 +61,6 @@ export interface IssueFeedbackEvent {
 
 export interface FeedbackRequestParams {
   inlineSuggestion?: InlineSuggestionEvent;
-  ansibleContent?: AnsibleContentEvent;
   sentimentFeedback?: SentimentEvent;
   suggestionQualityFeedback?: SuggestionQualityEvent;
   issueFeedback?: IssueFeedbackEvent;

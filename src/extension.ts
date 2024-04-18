@@ -50,7 +50,6 @@ import {
   rejectPendingSuggestion,
 } from "./features/lightspeed/inlineSuggestions";
 import { playbookExplanation } from "./features/lightspeed/playbookExplanation";
-import { AnsibleContentUploadTrigger } from "./definitions/lightspeed";
 import { ContentMatchesWebview } from "./features/lightspeed/contentMatchesWebview";
 import { ANSIBLE_LIGHTSPEED_AUTH_ID } from "./features/lightspeed/utils/webUtils";
 import {
@@ -279,12 +278,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
           lightSpeedManager,
           pythonInterpreterManager,
         );
-        if (editor) {
-          await lightSpeedManager.ansibleContentFeedback(
-            editor.document,
-            AnsibleContentUploadTrigger.TAB_CHANGE,
-          );
-        } else {
+        if (!editor) {
           await ignorePendingSuggestion();
         }
         lightspeedExplorerProvider.refreshWebView();
@@ -292,23 +286,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ),
   );
   context.subscriptions.push(
-    workspace.onDidOpenTextDocument(async (document: vscode.TextDocument) => {
+    workspace.onDidOpenTextDocument(async () => {
       await updateAnsibleStatusBar(
         metaData,
         lightSpeedManager,
         pythonInterpreterManager,
-      );
-      lightSpeedManager.ansibleContentFeedback(
-        document,
-        AnsibleContentUploadTrigger.FILE_OPEN,
-      );
-    }),
-  );
-  context.subscriptions.push(
-    workspace.onDidCloseTextDocument(async (document: vscode.TextDocument) => {
-      await lightSpeedManager.ansibleContentFeedback(
-        document,
-        AnsibleContentUploadTrigger.FILE_CLOSE,
       );
     }),
   );
